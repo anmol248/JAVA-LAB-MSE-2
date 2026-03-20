@@ -1,0 +1,10 @@
+package sem2;
+
+public class PolyMain {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
