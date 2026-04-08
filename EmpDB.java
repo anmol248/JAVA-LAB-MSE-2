@@ -21,23 +21,37 @@ public class EmpDB {
         	System.out.println("Driver is ready");
         	Connection con=DriverManager.getConnection(host,username,pwd);
         	System.out.println("Host is ready");
-        	Statement smt=con.createStatement();
+        	Statement smt=con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
         	smt.execute(create_table);
         	System.out.println("table is ready:");
         	ResultSet rs=smt.executeQuery("select * from employee");
-        	System.out.println("ID|Name|Dept|Salary");
+        	System.out.println("ID\t|Name\t|Dept\t\t|Salary");
         	while(rs.next()) {
+        		rs.moveToInsertRow();
+        		rs.updateString("name","Emp4");
+        		rs.updateString("dept","MCA");
+        		rs.updateDouble("Salary",80000);
+        		rs.insertRow();
+        		break;
+        	}
+        	while(rs.next()) {
+        		long salary=rs.getLong("salary");
+        		if(salary<=50000) {
+        			rs.updateDouble("salary",salary*1.1);
+        					rs.updateRow();
+        		}
         		int id=rs.getInt("id");
         		String name=rs.getString("name");
         		String dept=rs.getString("dept");
-        		long salary=rs.getLong("salary");
-        		System.out.println(String.format("%d|%s|%s  |%d", id,name,dept,salary));
+        		long Salary=rs.getLong("salary");
+        		System.out.println(String.format("%d\t|%s\t|%s       |%d", id,name,dept,salary));
         	}
 //        	int rowAffected=smt.executeUpdate(""" 
 //        			
 //        	 insert into employee
 //        	(name,dept,salary) values('Emp1','Account',40000),('Emp2','IT',60000),('Emp3','FInance',50000)
 //        	""");
+        	rs.close();smt.close();con.close();
         }catch (ClassNotFoundException | SQLException e) {
         	e.printStackTrace();
         }
