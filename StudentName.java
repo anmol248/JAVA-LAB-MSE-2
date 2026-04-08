@@ -43,7 +43,7 @@ public class StudentName {
 
         for (Stu s : students) {
             System.out.println("ID = " + s.getId());
-            System.out.println("Name = " + s.getName());
+            System.out.println("Names = " + s.getName());
             System.out.println("Course = " + s.getCourse());
             
         }
